@@ -53,8 +53,8 @@
     <Compile Include="Input\PkgCmdIDList.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="NuGetClientPackage.cs" />
-    <Compile Include="SolutionExplorer\ProjectNodeCommandHandler.cs" />
-    <Compile Include="SolutionExplorer\ProjectNodeExtender.cs" />
+    <Compile Include="SolutionExplorer\NuGetWorkspaceCommandHandler.cs" />
+    <Compile Include="SolutionExplorer\NuGetNodeExtender.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />

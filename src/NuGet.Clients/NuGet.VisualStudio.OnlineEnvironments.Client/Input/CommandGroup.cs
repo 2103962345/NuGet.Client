@@ -10,7 +10,7 @@ namespace NuGet.VisualStudio.OnlineEnvironments.Client
     /// </summary>
     internal static class CommandGroup
     {
-        public const string NuGetOnlineEnvironmentsClientProjectCommandSet = "{760B5FEF-9F63-4788-A9FC-6B0186690DD1}";
+        public const string NuGetOnlineEnvironmentsClientProjectCommandSet = "{282008cc-d0db-45e1-80d1-00fabac5de92}";
 
         public static readonly Guid NuGetOnlineEnvironmentsClientProjectCommandSetGuid = Guid.Parse(NuGetOnlineEnvironmentsClientProjectCommandSet);
     }

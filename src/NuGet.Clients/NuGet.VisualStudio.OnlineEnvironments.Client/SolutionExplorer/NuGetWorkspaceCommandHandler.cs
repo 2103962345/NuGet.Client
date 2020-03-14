@@ -13,15 +13,14 @@ using Microsoft.VisualStudio.Workspace.VSIntegration.UI;
 namespace NuGet.VisualStudio.OnlineEnvironments.Client
 {
     /// <summary>
-    /// Extends the Solution Explorer in cloud-connected scenarios by handling commands
-    /// for nodes representing managed projects.
+    /// Extends the Solution Explorer in cloud-connected scenarios.
     /// </summary>
-    internal class ProjectNodeCommandHandler : IWorkspaceCommandHandler
+    internal class NuGetWorkspaceCommandHandler : IWorkspaceCommandHandler
     {
         private readonly JoinableTaskContext _taskContext;
         private readonly IServiceProvider _serviceProvider;
 
-        public ProjectNodeCommandHandler(JoinableTaskContext taskContext, IServiceProvider serviceProvider)
+        public NuGetWorkspaceCommandHandler(JoinableTaskContext taskContext, IServiceProvider serviceProvider)
         {
             _taskContext = taskContext;
             _serviceProvider = serviceProvider;
@@ -31,7 +30,7 @@ namespace NuGet.VisualStudio.OnlineEnvironments.Client
         /// The command handlers priority. If there are multiple handlers for a given node
         /// then they are called in order of decreasing priority.
         /// </summary>
-        public int Priority => 1900;
+        public int Priority => 2000;
 
         /// <summary>
         /// Whether or not this handler should be ignored when multiple nodes are selected.
@@ -44,12 +43,15 @@ namespace NuGet.VisualStudio.OnlineEnvironments.Client
             {
                 var nCmdIDInt = (int)nCmdID;
 
-                switch (nCmdIDInt)
+                if (IsSolutionOnlySelection(selection))
                 {
-                    case PkgCmdIDList.CmdidRestorePackages:
-                        OpenFile(selection.SingleOrDefault());
+                    switch (nCmdIDInt)
+                    {
+                        case PkgCmdIDList.CmdidRestorePackages:
+                            OpenFile(selection.SingleOrDefault());
 
-                        return 0;
+                            return 0;
+                    }
                 }
             }
             return 1;
@@ -63,18 +65,25 @@ namespace NuGet.VisualStudio.OnlineEnvironments.Client
             {
                 var nCmdIDInt = (int)nCmdID;
 
-                switch (nCmdIDInt)
+                if (IsSolutionOnlySelection(selection))
                 {
-                    case PkgCmdIDList.CmdidRestorePackages:
-                        cmdf = (uint)(Microsoft.VisualStudio.OLE.Interop.OLECMDF.OLECMDF_ENABLED | Microsoft.VisualStudio.OLE.Interop.OLECMDF.OLECMDF_SUPPORTED);
-                        handled = true;
-                        break;
+                    switch (nCmdIDInt)
+                    {
+                        case PkgCmdIDList.CmdidRestorePackages:
+                            cmdf = (uint)(Microsoft.VisualStudio.OLE.Interop.OLECMDF.OLECMDF_ENABLED | Microsoft.VisualStudio.OLE.Interop.OLECMDF.OLECMDF_SUPPORTED);
+                            handled = true;
+                            break;
+                    }
                 }
             }
 
             return handled;
         }
 
+        private static bool IsSolutionOnlySelection(List<WorkspaceVisualNodeBase> selection)
+        {
+            return selection.Count().Equals(1) && selection.First().NodeMoniker.Equals(string.Empty);
+        }
         /// <summary>
         /// Handles opening the file associated with the given <paramref name="node"/>.
         /// </summary>
