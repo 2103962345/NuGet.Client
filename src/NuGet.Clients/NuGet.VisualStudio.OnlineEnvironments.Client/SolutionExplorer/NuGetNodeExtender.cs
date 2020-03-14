@@ -10,7 +10,7 @@ using Microsoft.VisualStudio.Workspace.VSIntegration.UI;
 namespace NuGet.VisualStudio.OnlineEnvironments.Client
 {
     /// <summary>
-    /// Extends the Solution Explorer in cloud-connected scenarios by adding command handlers
+    /// Extends the Solution Explorer in online environment scenarios by adding command handlers
     /// </summary>
     [ExportNodeExtender(CloudEnvironment.LiveShareSolutionView)]
     internal sealed class NuGetNodeExtender : INodeExtender

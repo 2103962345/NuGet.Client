@@ -13,7 +13,7 @@ using Microsoft.VisualStudio.Workspace.VSIntegration.UI;
 namespace NuGet.VisualStudio.OnlineEnvironments.Client
 {
     /// <summary>
-    /// Extends the Solution Explorer in cloud-connected scenarios.
+    /// Extends the Solution Explorer in online environment scenarios.
     /// </summary>
     internal class NuGetWorkspaceCommandHandler : IWorkspaceCommandHandler
     {
@@ -48,7 +48,7 @@ namespace NuGet.VisualStudio.OnlineEnvironments.Client
                     switch (nCmdIDInt)
                     {
                         case PkgCmdIDList.CmdidRestorePackages:
-                            OpenFile(selection.SingleOrDefault());
+                            ExecuteSolutionRestore(selection.SingleOrDefault());
 
                             return 0;
                     }
@@ -80,22 +80,8 @@ namespace NuGet.VisualStudio.OnlineEnvironments.Client
             return handled;
         }
 
-        private static bool IsSolutionOnlySelection(List<WorkspaceVisualNodeBase> selection)
+        private void ExecuteSolutionRestore(WorkspaceVisualNodeBase node)
         {
-            return selection.Count().Equals(1) && selection.First().NodeMoniker.Equals(string.Empty);
-        }
-        /// <summary>
-        /// Handles opening the file associated with the given <paramref name="node"/>.
-        /// </summary>
-        /// <param name="node"></param>
-        private void OpenFile(WorkspaceVisualNodeBase node)
-        {
-            if (node == null
-                || string.IsNullOrEmpty(node.NodeMoniker))
-            {
-                return;
-            }
-
             _taskContext.Factory.RunAsync(async () =>
             {
                 var serviceContainer = _serviceProvider.GetService<SVsBrokeredServiceContainer, IBrokeredServiceContainer>();
@@ -113,5 +99,11 @@ namespace NuGet.VisualStudio.OnlineEnvironments.Client
                 }
             });
         }
+
+        private static bool IsSolutionOnlySelection(List<WorkspaceVisualNodeBase> selection)
+        {
+            return selection.Count().Equals(1) && selection.First().NodeMoniker.Equals(string.Empty);
+        }
+
     }
 }
