@@ -21,11 +21,16 @@ namespace NuGet.VisualStudio.OnlineEnvironments.Client
         private readonly IWorkspaceCommandHandler _commandHandler;
 
         [ImportingConstructor]
+        public NuGetNodeExtender(JoinableTaskContext taskContext) :
+            this(taskContext, AsyncServiceProvider.GlobalProvider)
+        {
+        }
+
         public NuGetNodeExtender(
             JoinableTaskContext taskContext,
-            [Import(typeof(SVsServiceProvider))] IServiceProvider serviceProvider)
+            IAsyncServiceProvider asyncServiceProvider)
         {
-            _commandHandler = new NuGetWorkspaceCommandHandler(taskContext, serviceProvider);
+            _commandHandler = new NuGetWorkspaceCommandHandler(taskContext, asyncServiceProvider);
         }
 
         public IChildrenSource ProvideChildren(WorkspaceVisualNodeBase parentNode)

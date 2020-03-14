@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.RpcContracts.OpenDocument;
+using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.ServiceBroker;
 using Microsoft.VisualStudio.Threading;
 using Microsoft.VisualStudio.Workspace.VSIntegration.UI;
@@ -18,12 +19,12 @@ namespace NuGet.VisualStudio.OnlineEnvironments.Client
     internal class NuGetWorkspaceCommandHandler : IWorkspaceCommandHandler
     {
         private readonly JoinableTaskContext _taskContext;
-        private readonly IServiceProvider _serviceProvider;
+        private readonly IAsyncServiceProvider _serviceProvider;
 
-        public NuGetWorkspaceCommandHandler(JoinableTaskContext taskContext, IServiceProvider serviceProvider)
+        public NuGetWorkspaceCommandHandler(JoinableTaskContext taskContext, IAsyncServiceProvider asyncServiceProvider)
         {
             _taskContext = taskContext;
-            _serviceProvider = serviceProvider;
+            _serviceProvider = asyncServiceProvider;
         }
 
         /// <summary>
@@ -84,7 +85,7 @@ namespace NuGet.VisualStudio.OnlineEnvironments.Client
         {
             _taskContext.Factory.RunAsync(async () =>
             {
-                var serviceContainer = _serviceProvider.GetService<SVsBrokeredServiceContainer, IBrokeredServiceContainer>();
+                var serviceContainer = await _serviceProvider.GetServiceAsync<SVsBrokeredServiceContainer, IBrokeredServiceContainer>();
                 var serviceBroker = serviceContainer.GetFullAccessServiceBroker();
 
                 var openDocumentService = await serviceBroker.GetProxyAsync<IOpenDocumentService>(VisualStudioServices.VS2019_4.OpenDocumentService);

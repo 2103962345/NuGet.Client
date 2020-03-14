@@ -74,12 +74,6 @@
     <PackageReference Include="Microsoft.VisualStudio.Shell.15.0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\NuGet.VisualStudio.Common\NuGet.VisualStudio.Common.csproj">
-      <Project>{eea49a74-6efc-410e-9745-bad367ac151d}</Project>
-      <Name>NuGet.VisualStudio.Common</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <VSCTCompile Include="NuGetClientPackage.vsct">
       <ResourceName>Menus.ctmenu</ResourceName>
     </VSCTCompile>
