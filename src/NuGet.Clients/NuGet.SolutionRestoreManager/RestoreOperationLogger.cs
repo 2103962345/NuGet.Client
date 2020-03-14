@@ -185,12 +185,16 @@ namespace NuGet.SolutionRestoreManager
         /// </summary>
         public sealed override Task LogAsync(ILogMessage logMessage)
         {
+#pragma warning disable VSTHRD010
             Log(logMessage);
+#pragma warning restore VSTHRD010
+
             return Task.CompletedTask;
         }
 
         private void LogToVS(bool reportProgress, bool showAsOutputMessage, ILogMessage logMessage, RestoreOperationProgressUI progress)
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
             var verbosityLevel = GetMSBuildLevel(logMessage.Level);
 
             // Progress dialog
@@ -288,6 +292,7 @@ namespace NuGet.SolutionRestoreManager
         {
             return DoAsync((_, __) =>
             {
+                ThreadHelper.ThrowIfNotOnUIThread();
                 string message;
                 if (OutputVerbosity < 3)
                 {
@@ -332,6 +337,7 @@ namespace NuGet.SolutionRestoreManager
 
                 return DoAsync((_, __) =>
                 {
+                    ThreadHelper.ThrowIfNotOnUIThread();
                     switch (_operationSource)
                     {
                         case RestoreOperationSource.Implicit:
@@ -361,6 +367,7 @@ namespace NuGet.SolutionRestoreManager
 
             return DoAsync((_, __) =>
             {
+                ThreadHelper.ThrowIfNotOnUIThread();
                 switch (operationStatus)
                 {
                     case NuGetOperationStatus.Cancelled:
