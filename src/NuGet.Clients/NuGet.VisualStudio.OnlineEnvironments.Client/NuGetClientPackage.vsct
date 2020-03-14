@@ -36,7 +36,7 @@
          group as the part of a menu contained between two lines. The parent of a group
          must be a menu. -->
     <Groups>
-      <Group guid="guidNuGetClientPackageCmdSet" id="MyMenuGroup" priority="0x0600">
+      <Group guid="guidNuGetClientPackageCmdSet" id="NuGetClientMenuGroup" priority="0x0600">
         <Parent guid="guidWorkspaceExplorerToolWindowPackageCmdSet" id="idmWSE_ContextMenu"/>
       </Group>
     </Groups>
@@ -52,13 +52,15 @@
               <CommandFlag>DefaultInvisible</CommandFlag>
               <CommandFlag>DynamicVisibility</CommandFlag>
           If you do not want an image next to your command, remove the Icon node /> -->
-      <Button guid="guidNuGetClientPackageCmdSet" id="Command1Id" priority="0x0100" type="Button">
-        <Parent guid="guidNuGetClientPackageCmdSet" id="MyMenuGroup" />
+      <Button guid="guidNuGetClientPackageCmdSet" id="CmdidRestorePackages" priority="0x0100" type="Button">
+        <Parent guid="guidNuGetClientPackageCmdSet" id="NuGetClientMenuGroup" />
+        <CommandFlag>DefaultInvisible</CommandFlag>
+        <CommandFlag>DynamicVisibility</CommandFlag>
         <Strings>
-          <ButtonText>Restore NuGet Packages</ButtonText>
-          <CommandName>SolutionExplorer.Project.RestoreNuGetPackages</CommandName>
-          <CanonicalName>SolutionExplorer.Project.RestoreNuGetPackages</CanonicalName>
-          <LocCanonicalName>SolutionExplorer.Project.RestoreNuGetPackages</LocCanonicalName>
+          <ButtonText>Restore NuGet Packa&amp;ges</ButtonText>
+          <CommandName>SolutionExplorer.Solution.RestoreNuGetPackages</CommandName>
+          <CanonicalName>SolutionExplorer.Solution.RestoreNuGetPackages</CanonicalName>
+          <LocCanonicalName>SolutionExplorer.Solution.RestoreNuGetPackages</LocCanonicalName>
         </Strings>
       </Button>
     </Buttons>
@@ -70,8 +72,8 @@
 
     <!-- This is the guid used to group the menu commands together -->
     <GuidSymbol name="guidNuGetClientPackageCmdSet" value="{282008cc-d0db-45e1-80d1-00fabac5de92}">
-      <IDSymbol name="MyMenuGroup" value="0x1020" />
-      <IDSymbol name="Command1Id" value="0x0100" />
+      <IDSymbol name="NuGetClientMenuGroup" value="0x1020" />
+      <IDSymbol name="CmdidRestorePackages" value="0x0100" />
     </GuidSymbol>
 
     <GuidSymbol name="guidWorkspaceExplorerToolWindowPackageCmdSet" value="{cfb400f1-5c60-4f3c-856e-180d28def0b7}">
